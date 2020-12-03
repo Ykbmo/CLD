@@ -1,20 +1,40 @@
+import copy
+import random
 
-team_name = {'Bayern Muenchen' : ['A',1,'Germany'],
-             'RB Salsburg' : ['A',2,'Austria'],     #or ATM
-             'Borussia Moenchengladbach' :['B',1,'Germany'], #B
-             'Inter Milan' : ['B',2,'Italy'], #B
-             'Manchester City' : ['C',1,'England'],
-             'Porto' : ['C',2,'Portugal'],
-             'Liverpool' :['D',1,'England'],
-             'Ajax' : ['D',2,'Netherland'], #or Atalanta
-             'Chelsea' : ['E',1,'England'],
-             'Sevilla' : ['E',2,'Spain'],
-             'Borussia Dortmund' : ['F',1,'Germany'], # or 2
-             'Lazio':['F',2,'Italy'], # or Club Brugge
-             'Barcelona' : ['G',1,'Spain'], # or 2
-             'Juventus' : ['G',2,'Italy'], # or 1
-             'RB Leipzig' : ['H',1,'Germany'], # or ManU
-             'Paris Saint-Germain' : ['H',2,'France']}
-             
-    
-print(team_name['Bayern Muenchen'])
+def okrunnerlist(team_name,nation,group):
+    return_match = copy.deepcopy(team_name)
+    for match in team_name:
+        if team_name[match][1] == nation or team_name[match][0] == group :
+            del return_match[match]
+    return return_match
+def draw(team_name,runner_team_name):
+    match16 = []
+    for match in team_name:
+        teamlist = okrunnerlist(runner_team_name,team_name[match][1],team_name[match][0])
+        rndteam = random.choice(list(teamlist.keys()))
+        match16.append(match + " vs " + rndteam)
+        del runner_team_name[rndteam]
+    return match16
+
+
+
+
+winner_team_name = {'Bayern Muenchen' : ['A','Germany'],
+             'Borussia Moenchengladbach' :['B','Germany'], #B
+             'Manchester City' : ['C','England'],
+             'Liverpool' :['D','England'],
+             'Chelsea' : ['E','England'],
+             'Borussia Dortmund' : ['F','Germany'], # or 2
+             'Barcelona' : ['G','Spain'], # or 2
+             'Manchester United' : ['H','England']} # or ManU
+runner_team_name ={
+             'ATM' : ['A','Spain'],     #or ATM
+             'Shakhtar Donetsk' : ['B','Ukraine'], #B
+             'Porto' : ['C','Portugal'],
+             'Atalanta' : ['D','Netherland'], #or Atalanta
+             'Sevilla' : ['E','Spain'],
+             'Juventus' : ['G','Italy'], # or 1
+             'Lazio':['F','Italy'], # or Club Brugge
+             'Paris Saint-Germain' : ['H','France']}
+
+print(draw(winner_team_name,runner_team_name))
