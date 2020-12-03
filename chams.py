@@ -1,6 +1,6 @@
 import copy
 import random
-
+import operator
 def okrunnerlist(team_name,nation,group):
     return_match = copy.deepcopy(team_name)
     for match in team_name:
@@ -9,11 +9,22 @@ def okrunnerlist(team_name,nation,group):
     return return_match
 def draw(team_name,runner_team_name):
     match16 = []
-    for match in team_name:
+    cnt = 0
+    while cnt != 8:
+        match = []
+        ok = 0
+        for match_ck in team_name:
+            if len(okrunnerlist(runner_team_name,team_name[match_ck][1],team_name[match_ck][0])) == 1:
+                ok = 1
+                match = match_ck
+        if ok == 0:
+            match = random.choice(list(team_name.keys()))
         teamlist = okrunnerlist(runner_team_name,team_name[match][1],team_name[match][0])
         rndteam = random.choice(list(teamlist.keys()))
         match16.append(match + " vs " + rndteam)
         del runner_team_name[rndteam]
+        del team_name[match]
+        cnt = cnt + 1
     return match16
 
 
@@ -37,4 +48,18 @@ runner_team_name ={
              'Lazio':['F','Italy'], # or Club Brugge
              'Paris Saint-Germain' : ['H','France']}
 
-print(draw(winner_team_name,runner_team_name))
+matchcount = dict()
+count = 0
+while count != 100000:
+    try:
+        matchlist = draw(copy.deepcopy(winner_team_name),copy.deepcopy(runner_team_name))
+    except:
+        continue
+    for match in matchlist:
+        if match in matchcount :
+            matchcount[match] = matchcount[match] + 1
+        else:
+            matchcount[match] = 1
+    count = count + 1
+matchcount = sorted(matchcount.items(),key=lambda x: x[1],reverse=True)
+print(matchcount)
