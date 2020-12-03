@@ -62,4 +62,5 @@ while count != 100000:
             matchcount[match] = 1
     count = count + 1
 matchcount = sorted(matchcount.items(),key=lambda x: x[1],reverse=True)
-print(matchcount)
+for a in matchcount:
+    print(a[0] + ' : ' + str(a[1]/1000) + '%')
